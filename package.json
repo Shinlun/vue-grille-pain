@@ -1,0 +1,37 @@
+{
+  "name": "@ronanlet/tests",
+  "version": "0.2.9",
+  "private": false,
+  "license": "MIT",
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "build-bundle": "cross-env vue-cli-service build --target lib --name grille-pain ./src/components/index.ts && npm run typings",
+    "typings": "cross-env tsc ./src/components/index.ts --declaration --emitDeclarationOnly --outDir ./dist/typings"
+  },
+  "dependencies": {
+    "vue": "^3.0.0"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-typescript": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
+    "@vue/compiler-sfc": "^3.0.0",
+    "cross-env": "^7.0.3",
+    "node-sass": "^4.12.0",
+    "sass-loader": "^8.0.2",
+    "typescript": "~4.1.5"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ],
+  "main": "./dist/grille-pain.umd.js",
+  "typings": "./dist/typings/components/index.d.ts",
+  "files": [
+    "dist/**/*",
+    "public/*",
+    "*.json",
+    "*.js"
+  ]
+}
