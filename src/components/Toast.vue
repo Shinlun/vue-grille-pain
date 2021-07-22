@@ -7,11 +7,11 @@
       'toast--warning': type === GpNotificationType.WARNING,
       'toast--error': type === GpNotificationType.ERROR,
       [animationClass]: animate,
-      'toast--hide': hide,
-      'toast--show': !hide,
+      'toast--hide': timeup,
+      'toast--show': !timeup,
     }"
-    @mouseenter="onMouseEnter"
-    @mouseleave="onMouseLeave"
+    @mouseenter="stopTimer"
+    @mouseleave="resetTimer"
     @animationend="onAnimationEnd"
   >
     <div v-if="title" class="toast__header">
@@ -32,6 +32,7 @@ import { computed } from "@vue/runtime-core";
 import { GpAnimation, GpNotificationType } from "../types/enums";
 import Svg from "./Svg.vue";
 import Cross from "./icons/Cross.vue";
+import useTimer from '../composition/useTimer';
 
 const props = withDefaults(
   defineProps<{
@@ -53,7 +54,6 @@ const emit = defineEmits<{
 }>();
 
 const animate = ref(true);
-const hide = ref(false);
 
 const { animation } = toRefs(props);
 const animationClass = computed(() => {
@@ -73,26 +73,10 @@ const animationClass = computed(() => {
   }
 });
 
-const timeOut = ref(
-  setTimeout(() => {
-    hide.value = true;
-  }, 5000)
-);
-
-const onMouseEnter = (e: MouseEvent) => {
-  hide.value = false;
-  clearTimeout(timeOut.value);
-};
-
-const onMouseLeave = (e: MouseEvent) => {
-  clearTimeout(timeOut.value);
-  timeOut.value = setTimeout(() => {
-    hide.value = true;
-  }, 5000);
-};
+const { timeup, stopTimer, resetTimer } = useTimer(5000);
 
 const onAnimationEnd = (e: AnimationEvent) => {
-  if (hide.value) {
+  if (timeup.value) {
     emit("clear", props.id);
   }
 
