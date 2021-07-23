@@ -5,6 +5,11 @@ enum GpNotificationType {
   ERROR,
 }
 
+enum GpTheme {
+  LIGHT,
+  DARK,
+}
+
 enum GpPosition {
   TOP_LEFT,
   TOP,
@@ -29,4 +34,4 @@ enum GpOrder {
   DESC,
 }
 
-export { GpNotificationType, GpPosition, GpAnimation, GpOrder };
+export { GpNotificationType, GpTheme, GpPosition, GpAnimation, GpOrder };

@@ -9,30 +9,51 @@
       [animationClass]: animate,
       'toast--hide': timeup,
       'toast--show': !timeup,
+      'toast--light': theme === GpTheme.LIGHT,
+      'toast--dark': theme === GpTheme.DARK,
     }"
     @mouseenter="stopTimer"
     @mouseleave="resetTimer"
     @animationend="onAnimationEnd"
   >
-    <div v-if="title" class="toast__header">
+    <div
+      v-if="title"
+      :class="{
+        toast__header: true,
+        'toast__header--message': type === GpNotificationType.MESSAGE,
+        'toast__header--success': type === GpNotificationType.SUCCESS,
+        'toast__header--warning': type === GpNotificationType.WARNING,
+        'toast__header--error': type === GpNotificationType.ERROR,
+        'toast__header--light': theme === GpTheme.LIGHT,
+        'toast__header--dark': theme === GpTheme.DARK,
+      }"
+    >
       {{ title }}
       <button class="toast__close" @click="onClose">
-        <Svg :width="10" :height="10" iconName="close">
+        <Svg :width="10" :height="10" iconName="close" :iconColor="crossColor">
           <Cross />
         </Svg>
       </button>
     </div>
-    <div class="toast__message">{{ message }}</div>
+    <div
+      :class="{
+        toast__message: true,
+        'toast__header--light': theme === GpTheme.LIGHT,
+        'toast__header--dark': theme === GpTheme.DARK,
+      }"
+    >
+      {{ message }}
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, toRefs } from "@vue/reactivity";
 import { computed } from "@vue/runtime-core";
-import { GpAnimation, GpNotificationType } from "../types/enums";
+import { GpAnimation, GpNotificationType, GpTheme } from "../types/enums";
 import Svg from "./Svg.vue";
 import Cross from "./icons/Cross.vue";
-import useTimer from '../composition/useTimer';
+import useTimer from "../composition/useTimer";
 
 const props = withDefaults(
   defineProps<{
@@ -40,12 +61,16 @@ const props = withDefaults(
     message?: string;
     type?: GpNotificationType;
     animation?: GpAnimation;
+    theme?: GpTheme;
+    fade?: number;
     id: string;
   }>(),
   {
     message: "Toast",
     type: GpNotificationType.MESSAGE,
     animation: GpAnimation.POP,
+    theme: GpTheme.LIGHT,
+    fade: 5000,
   }
 );
 
@@ -55,7 +80,7 @@ const emit = defineEmits<{
 
 const animate = ref(true);
 
-const { animation } = toRefs(props);
+const { animation, theme, fade } = toRefs(props);
 const animationClass = computed(() => {
   switch (animation.value) {
     case GpAnimation.POP:
@@ -73,10 +98,14 @@ const animationClass = computed(() => {
   }
 });
 
-const { timeup, stopTimer, resetTimer } = useTimer(5000);
+const { timeup, stopTimer, resetTimer } = useTimer(fade.value);
+
+const crossColor = theme.value === GpTheme.LIGHT ? "" : "#fff";
 
 const onAnimationEnd = (e: AnimationEvent) => {
-  if (timeup.value) {
+  console.log("FADE VALUE: ", fade.value);
+  console.log("TIMEUP VALUE: ", timeup.value);
+  if (fade.value > 0 && timeup.value) {
     emit("clear", props.id);
   }
 
@@ -94,23 +123,18 @@ const onClose = () => emit("clear", props.id);
   box-shadow: $shadow;
   text-align: left;
   width: 100%;
-  background-color: $white;
 
   &--message {
     border-left: 5px solid $message-blue;
-    color: $message-blue;
   }
   &--success {
     border-left: 5px solid $success-green;
-    color: $success-green;
   }
   &--warning {
     border-left: 5px solid $warning-yellow;
-    color: $warning-yellow;
   }
   &--error {
     border-left: 5px solid $error-red;
-    color: $error-red;
   }
   &--pop {
     @include animate(pop, 0.2s);
@@ -140,12 +164,31 @@ const onClose = () => emit("clear", props.id);
     justify-content: space-between;
     align-items: center;
     font-weight: bold;
-    border-bottom: 1px solid $grey1;
     padding: 10px;
+    border-bottom: 1px solid;
+
+    &--message {
+      color: $message-blue;
+    }
+    &--success {
+      color: $success-green;
+    }
+    &--warning {
+      color: $warning-yellow;
+    }
+    &--error {
+      color: $error-red;
+    }
+
+    &--light {
+      border-color: $grey1;
+    }
+    &--dark {
+      border-color: $dark-grey;
+    }
   }
 
   &__message {
-    color: $grey;
     padding: 10px;
   }
 
@@ -153,6 +196,15 @@ const onClose = () => emit("clear", props.id);
     background-color: transparent;
     border: none;
     cursor: pointer;
+  }
+
+  &--light {
+    color: $grey;
+    background-color: $white;
+  }
+  &--dark {
+    color: $dark-text;
+    background-color: $dark-bg;
   }
 }
 </style>

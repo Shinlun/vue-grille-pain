@@ -26,6 +26,8 @@
         :message="toast.message"
         :type="toast.type"
         :animation="toastsAnimation"
+        :theme="theme"
+        :fade="fadeAfter"
         @clear="removeNotification"
       />
     </div>
@@ -33,7 +35,7 @@
 </template>
 
 <script lang="ts" setup>
-import { GpAnimation, GpPosition, GpOrder } from "../types/enums";
+import { GpAnimation, GpTheme, GpPosition, GpOrder } from "../types/enums";
 import Toast from "./Toast.vue";
 import useNotifications from "../composition/useNotifications";
 
@@ -42,11 +44,15 @@ withDefaults(
     position?: GpPosition;
     toastsAnimation?: GpAnimation;
     order?: GpOrder;
+    theme?: GpTheme;
+    fadeAfter?: number;
   }>(),
   {
     position: GpPosition.BOTTOM_RIGHT,
     toastsAnimation: GpAnimation.POP,
     order: GpOrder.ASC,
+    theme: GpTheme.LIGHT,
+    fadeAfter: 5000,
   }
 );
 

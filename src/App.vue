@@ -1,30 +1,20 @@
 <template>
-  <button @click="emit">EMIT</button>
+  <Demo />
   <GrillePain
-    :position="GpPosition.BOTTOM"
-    :order="GpOrder.ASC"
-    :toasts-animation="GpAnimation.SLIDE_UP"
+    :position="config.position"
+    :order="config.order"
+    :toasts-animation="config.animation"
+    :theme="config.theme"
+    :fadeAfter="config.fade"
   />
 </template>
 
 <script lang="ts" setup>
+import Demo from "./components/Demo.vue";
 import GrillePain from "./components/GrillePain.vue";
-import {
-  GpNotificationType,
-  GpPosition,
-  GpAnimation,
-  GpOrder,
-} from "./types/enums";
-import useNotifications from "./composition/useNotifications";
+import useConfig from "./composition/useConfig";
 
-const { addNotification } = useNotifications();
-
-const emit = () =>
-  addNotification({
-    title: "Test",
-    message: "Message de ouf les gars",
-    type: GpNotificationType.MESSAGE,
-  });
+const { config } = useConfig();
 </script>
 
 <style lang="scss">
