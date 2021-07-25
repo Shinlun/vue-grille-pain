@@ -2,34 +2,39 @@
   <div
     :class="{
       toast: true,
-      'toast--message': type === GpNotificationType.MESSAGE,
-      'toast--success': type === GpNotificationType.SUCCESS,
-      'toast--warning': type === GpNotificationType.WARNING,
-      'toast--error': type === GpNotificationType.ERROR,
+      'toast--message': type === GpToastType.INFO,
+      'toast--success': type === GpToastType.SUCCESS,
+      'toast--warning': type === GpToastType.WARNING,
+      'toast--error': type === GpToastType.ERROR,
       [animationClass]: animate,
       'toast--hide': timeup,
       'toast--show': !timeup,
       'toast--light': theme === GpTheme.LIGHT,
       'toast--dark': theme === GpTheme.DARK,
+      'toast--clickable': clickable,
+      ...customClasses,
     }"
     @mouseenter="stopTimer"
     @mouseleave="resetTimer"
     @animationend="onAnimationEnd"
+    @click="onClick"
   >
     <div
       v-if="title"
       :class="{
         toast__header: true,
-        'toast__header--message': type === GpNotificationType.MESSAGE,
-        'toast__header--success': type === GpNotificationType.SUCCESS,
-        'toast__header--warning': type === GpNotificationType.WARNING,
-        'toast__header--error': type === GpNotificationType.ERROR,
+        'toast__header--message': type === GpToastType.INFO,
+        'toast__header--success': type === GpToastType.SUCCESS,
+        'toast__header--warning': type === GpToastType.WARNING,
+        'toast__header--error': type === GpToastType.ERROR,
         'toast__header--light': theme === GpTheme.LIGHT,
         'toast__header--dark': theme === GpTheme.DARK,
       }"
     >
-      {{ title }}
-      <button class="toast__close" @click="onClose">
+      <div class="toast__header__title">
+        {{ title }}
+      </div>
+      <button v-if="!closeOnClick" class="toast__close" @click="onClose">
         <Svg :width="10" :height="10" iconName="close" :iconColor="crossColor">
           <Cross />
         </Svg>
@@ -42,7 +47,24 @@
         'toast__header--dark': theme === GpTheme.DARK,
       }"
     >
-      {{ message }}
+      {{ maxMessageLength && showMore ? truncatedMessage : message }}
+    </div>
+    <div
+      v-if="
+        typeof maxMessageLength === 'number' &&
+          message.length > maxMessageLength
+      "
+      :class="{
+        toast__footer: true,
+        'toast__footer--open': showMore,
+        'toast__footer--close': !showMore,
+        'toast__footer--light': theme === GpTheme.LIGHT,
+        'toast__footer--dark': theme === GpTheme.DARK,
+      }"
+      @click="toggleShowMore"
+      ref="footerElement"
+    >
+      {{ showMore ? "▼" : "▲" }}
     </div>
   </div>
 </template>
@@ -50,27 +72,32 @@
 <script lang="ts" setup>
 import { ref, toRefs } from "@vue/reactivity";
 import { computed } from "@vue/runtime-core";
-import { GpAnimation, GpNotificationType, GpTheme } from "../types/enums";
+import { GpAnimation, GpToastType, GpTheme } from "../types/enums";
 import Svg from "./Svg.vue";
 import Cross from "./icons/Cross.vue";
 import useTimer from "../composition/useTimer";
+import useToggle from "../composition/useToggle";
 
 const props = withDefaults(
   defineProps<{
     title?: string;
     message?: string;
-    type?: GpNotificationType;
+    type?: GpToastType;
     animation?: GpAnimation;
     theme?: GpTheme;
-    fade?: number;
+    fadeAfter?: number;
+    closeOnClick?: boolean;
+    maxMessageLength?: number;
+    className?: string | string[];
     id: string;
   }>(),
   {
-    message: "Toast",
-    type: GpNotificationType.MESSAGE,
-    animation: GpAnimation.POP,
+    message: "",
+    type: GpToastType.INFO,
+    animation: GpAnimation.SLIDE_UP,
     theme: GpTheme.LIGHT,
-    fade: 5000,
+    fadeAfter: 5000,
+    closeOnClick: false,
   }
 );
 
@@ -80,7 +107,32 @@ const emit = defineEmits<{
 
 const animate = ref(true);
 
-const { animation, theme, fade } = toRefs(props);
+const {
+  title,
+  message,
+  animation,
+  theme,
+  fadeAfter,
+  closeOnClick,
+  maxMessageLength,
+  className,
+} = toRefs(props);
+
+const customClasses = computed(() => {
+  if (!className) return;
+
+  if (typeof className.value === "string") {
+    return { [className.value]: true };
+  }
+
+  const classes: { [key: string]: boolean } = {};
+
+  className.value?.map((name) => (classes[name] = true));
+
+  return classes;
+});
+
+const clickable = computed(() => !title?.value || closeOnClick.value);
 const animationClass = computed(() => {
   switch (animation.value) {
     case GpAnimation.POP:
@@ -98,18 +150,33 @@ const animationClass = computed(() => {
   }
 });
 
-const { timeup, stopTimer, resetTimer } = useTimer(fade.value);
+const truncatedMessage = computed(() =>
+  !!maxMessageLength?.value && message.value.length > maxMessageLength.value
+    ? `${message.value.slice(0, maxMessageLength.value)}...`
+    : message.value
+);
 
-const crossColor = theme.value === GpTheme.LIGHT ? "" : "#fff";
+const { bool: showMore, toggle: toggleShowMore } = useToggle(true);
+
+const { timeup, stopTimer, resetTimer } = useTimer(fadeAfter.value);
+
+const crossColor = computed(() =>
+  theme.value === GpTheme.LIGHT ? "" : "#fff"
+);
 
 const onAnimationEnd = (e: AnimationEvent) => {
-  console.log("FADE VALUE: ", fade.value);
-  console.log("TIMEUP VALUE: ", timeup.value);
-  if (fade.value > 0 && timeup.value) {
+  if (fadeAfter.value > 0 && timeup.value) {
     emit("clear", props.id);
   }
 
   animate.value = false;
+};
+
+const footerElement = ref();
+const onClick = (e: MouseEvent) => {
+  if ((title?.value && !closeOnClick.value) || e.target === footerElement.value)
+    return;
+  emit("clear", props.id);
 };
 
 const onClose = () => emit("clear", props.id);
@@ -120,7 +187,6 @@ const onClose = () => emit("clear", props.id);
 @import "../assets/scss/mixins.scss";
 .toast {
   border-radius: $radius;
-  box-shadow: $shadow;
   text-align: left;
   width: 100%;
 
@@ -135,6 +201,9 @@ const onClose = () => emit("clear", props.id);
   }
   &--error {
     border-left: 5px solid $error-red;
+  }
+  &--clickable {
+    cursor: pointer;
   }
   &--pop {
     @include animate(pop, 0.2s);
@@ -166,6 +235,13 @@ const onClose = () => emit("clear", props.id);
     font-weight: bold;
     padding: 10px;
     border-bottom: 1px solid;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    &__title {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
     &--message {
       color: $message-blue;
@@ -192,6 +268,22 @@ const onClose = () => emit("clear", props.id);
     padding: 10px;
   }
 
+  &__footer {
+    display: flex;
+    justify-content: center;
+    font-size: 0.8em;
+    border-top: 1px solid;
+    cursor: pointer;
+    padding: 2px;
+
+    &--light {
+      border-color: $grey1;
+    }
+    &--dark {
+      border-color: $dark-grey;
+    }
+  }
+
   &__close {
     background-color: transparent;
     border: none;
@@ -201,10 +293,12 @@ const onClose = () => emit("clear", props.id);
   &--light {
     color: $grey;
     background-color: $white;
+    box-shadow: $shadow;
   }
   &--dark {
     color: $dark-text;
     background-color: $dark-bg;
+    box-shadow: $dark-shadow;
   }
 }
 </style>

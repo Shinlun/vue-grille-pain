@@ -1,32 +1,43 @@
-import { GpAnimation, GpOrder, GpPosition } from "@/components";
-import { GpTheme } from "@/types/enums";
-import { ref } from "vue";
+import { Ref, ref } from "vue";
+import { GpAnimation, GpOrder, GpPosition, GpTheme } from "../types/enums";
 
-interface Config {
+interface GpConfig {
   animation: GpAnimation;
   order: GpOrder;
   position: GpPosition;
   theme: GpTheme;
-  fade: number;
+  fadeAfter: number;
+  closeOnClick: boolean;
+  maxMessageLength?: number;
 }
 
-const config = ref({
+export interface GpOptions {
+  animation?: GpAnimation;
+  order?: GpOrder;
+  position?: GpPosition;
+  theme?: GpTheme;
+  fadeAfter?: number;
+  closeOnClick?: boolean;
+  maxMessageLength?: number;
+}
+
+const config: Ref<GpConfig> = ref({
   animation: GpAnimation.SLIDE_UP,
-  order: GpOrder.ASC,
-  position: GpPosition.BOTTOM,
-  theme: GpTheme.LIGHT,
-  fade: 5000,
+  order: GpOrder.DESC,
+  position: GpPosition.BOTTOM_LEFT,
+  theme: GpTheme.DARK,
+  fadeAfter: 5000,
+  closeOnClick: false,
 });
 
 export default function useConfig() {
-  const updateConfig = (newConfig: Config) => {
-    config.value = newConfig;
+  const updateConfig = (payload: GpOptions) => {
+    const newConfig: GpConfig = {
+      ...config.value,
+      ...payload,
+    };
 
-    // console.log("theme: ", config.value.theme);
-    // console.log("animation: ", config.value.animation);
-    // console.log("order: ", config.value.order);
-    // console.log("position: ", config.value.position);
-    // console.log("fade after: ", config.value.fade);
+    config.value = newConfig;
   };
 
   return { config, updateConfig };

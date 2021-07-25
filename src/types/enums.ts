@@ -1,5 +1,5 @@
-enum GpNotificationType {
-  MESSAGE,
+enum GpToastType {
+  INFO,
   SUCCESS,
   WARNING,
   ERROR,
@@ -34,4 +34,4 @@ enum GpOrder {
   DESC,
 }
 
-export { GpNotificationType, GpTheme, GpPosition, GpAnimation, GpOrder };
+export { GpToastType, GpTheme, GpPosition, GpAnimation, GpOrder };

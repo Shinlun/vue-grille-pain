@@ -1,21 +1,21 @@
 <template>
   <div
     :class="{
-      toaster: true,
-      'toaster--top-left': position === GpPosition.TOP_LEFT,
-      'toaster--top': position === GpPosition.TOP,
-      'toaster--top-right': position === GpPosition.TOP_RIGHT,
-      'toaster--right': position === GpPosition.RIGHT,
-      'toaster--bottom-right': position === GpPosition.BOTTOM_RIGHT,
-      'toaster--bottom': position === GpPosition.BOTTOM,
-      'toaster--bottom-left': position === GpPosition.BOTTOM_LEFT,
-      'toaster--left': position === GpPosition.LEFT,
+      'grille-pain': true,
+      'grille-pain--top-left': config.position === GpPosition.TOP_LEFT,
+      'grille-pain--top': config.position === GpPosition.TOP,
+      'grille-pain--top-right': config.position === GpPosition.TOP_RIGHT,
+      'grille-pain--right': config.position === GpPosition.RIGHT,
+      'grille-pain--bottom-right': config.position === GpPosition.BOTTOM_RIGHT,
+      'grille-pain--bottom': config.position === GpPosition.BOTTOM,
+      'grille-pain--bottom-left': config.position === GpPosition.BOTTOM_LEFT,
+      'grille-pain--left': config.position === GpPosition.LEFT,
     }"
   >
     <div
       :class="{
         toasts: true,
-        'toasts--reverse': order === GpOrder.ASC,
+        'toasts--reverse': config.order === GpOrder.ASC,
       }"
     >
       <Toast
@@ -25,44 +25,48 @@
         :title="toast.title"
         :message="toast.message"
         :type="toast.type"
-        :animation="toastsAnimation"
-        :theme="theme"
-        :fade="fadeAfter"
-        @clear="removeNotification"
+        :animation="
+          typeof toast.animation !== 'undefined'
+            ? toast.animation
+            : config.animation
+        "
+        :theme="typeof toast.theme !== 'undefined' ? toast.theme : config.theme"
+        :fade-after="
+          typeof toast.fadeAfter !== 'undefined'
+            ? toast.fadeAfter
+            : config.fadeAfter
+        "
+        :close-on-click="
+          typeof toast.closeOnClick !== 'undefined'
+            ? toast.closeOnClick
+            : config.closeOnClick
+        "
+        :max-message-length="
+          typeof toast.maxMessageLength !== 'undefined'
+            ? toast.maxMessageLength
+            : config.maxMessageLength
+        "
+        @clear="clean"
       />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { GpAnimation, GpTheme, GpPosition, GpOrder } from "../types/enums";
+import { GpPosition, GpOrder } from "../types/enums";
 import Toast from "./Toast.vue";
-import useNotifications from "../composition/useNotifications";
+import useGrillePain from "../composition/useGrillePain";
+import useConfig from "../composition/useConfig";
 
-withDefaults(
-  defineProps<{
-    position?: GpPosition;
-    toastsAnimation?: GpAnimation;
-    order?: GpOrder;
-    theme?: GpTheme;
-    fadeAfter?: number;
-  }>(),
-  {
-    position: GpPosition.BOTTOM_RIGHT,
-    toastsAnimation: GpAnimation.POP,
-    order: GpOrder.ASC,
-    theme: GpTheme.LIGHT,
-    fadeAfter: 5000,
-  }
-);
-
-const { notifications, removeNotification } = useNotifications();
+const { config } = useConfig();
+const { notifications, clean } = useGrillePain();
 </script>
 
 <style lang="scss" scoped>
 @import "../assets/scss/variables.scss";
-.toaster {
-  font: $font;
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+.grille-pain {
+  font-family: $font;
   position: fixed;
   padding: 10px;
 
@@ -76,26 +80,24 @@ const { notifications, removeNotification } = useNotifications();
       margin: 5px 0;
     }
 
-    & > *:first-child {
-      margin-top: 0;
-      margin-bottom: 5px;
-    }
+    &:not(.toasts--reverse) {
+      & > *:first-child {
+        margin-top: 0;
+      }
 
-    & > *:last-child {
-      margin-top: 5px;
-      margin-bottom: 0;
+      & > *:last-child {
+        margin-bottom: 0;
+      }
     }
 
     &--reverse {
       flex-direction: column-reverse;
       & > *:first-child {
-        margin-top: 5px;
         margin-bottom: 0;
       }
 
       & > *:last-child {
         margin-top: 0;
-        margin-bottom: 5px;
       }
     }
   }
