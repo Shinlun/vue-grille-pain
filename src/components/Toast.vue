@@ -126,7 +126,9 @@ const customClasses = computed(() => {
   return classes;
 });
 
-const clickable = computed(() => !title?.value || closeOnClick.value);
+const clickable = computed(
+  () => (!title?.value && fadeAfter.value === 0) || closeOnClick.value
+);
 const animationClass = computed(() => {
   switch (animation.value) {
     case GpAnimation.POP:
@@ -168,8 +170,7 @@ const onAnimationEnd = (e: AnimationEvent) => {
 
 const footerElement = ref();
 const onClick = (e: MouseEvent) => {
-  if ((title?.value && !closeOnClick.value) || e.target === footerElement.value)
-    return;
+  if (!clickable || e.target === footerElement.value) return;
   emit("clear", props.id);
 };
 
