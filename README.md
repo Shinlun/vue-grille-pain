@@ -123,7 +123,7 @@ These parameters can be passed when registering the plugin.
 
 ### Toast customization
 
-There parameters can be passed when generating a toast.
+These parameters can be passed when generating a toast.
 
 | **Parameter**    | **Type**           | **Default**            | **Description**                                                                                    |
 | ---------------- | ------------------ | ---------------------- | -------------------------------------------------------------------------------------------------- |

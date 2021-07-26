@@ -1,9 +1,9 @@
 @keyframes pop {
   from {
-    scale: 0;
+    transform: scale(0);
   }
   to {
-    scale: 100%;
+    transform: scale(1);
   }
 }
 
