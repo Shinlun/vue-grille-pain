@@ -40,13 +40,7 @@
         </Svg>
       </button>
     </div>
-    <div
-      :class="{
-        toast__message: true,
-        'toast__header--light': theme === GpTheme.LIGHT,
-        'toast__header--dark': theme === GpTheme.DARK,
-      }"
-    >
+    <div class="toast__message">
       {{ maxMessageLength && showMore ? truncatedMessage : message }}
     </div>
     <div
