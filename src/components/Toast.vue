@@ -184,6 +184,7 @@ const onClose = () => emit("clear", props.id);
   border-radius: $radius;
   text-align: left;
   width: 100%;
+  box-sizing: border-box;
 
   &--message {
     border-left: 5px solid $message-blue;
