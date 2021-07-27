@@ -113,13 +113,14 @@ These parameters can be passed when registering the plugin.
 | ---------------- | ----------- | ------------------------ | ----------------------------------------------------------------------------------------------------- |
 | position         | GpPosition  | `GpPosition.BOTTOM_LEFT` | Position of the toasts container                                                                      |
 | order            | GpOrder     | `GpOrder.ASC`            | Toasts ordering (oldest / newest on top)                                                              |
+| fullWidth        | boolean     | `false`                  | Toasts take up the full screen width (useful for mobile)                                              |
 | animation        | GpAnimation | `GpAnimation.SLIDE_UP`   | Toasts display animation                                                                              |
 | theme            | GpTheme     | `GpTheme.LIGHT`          | Toasts theme                                                                                          |
 | fadeAfter        | number      | `5000`                   | Time in ms before toasts fade (0 for never)                                                           |
 | closeOnClick     | boolean     | `false`                  | Whether toasts should be closable on mouse click (by default, toasts are closable via a close button) |
 | maxMessageLength | number      | `undefined`              | If set, texts of a greater length will be truncated and the toasts will be expandable                 |
 
-`position` and `order` are global parameters, meaning they concern the toasts container and cannot be overridden on a single toast.
+`position`, `order` and `fullWidth` are global parameters, meaning they concern the toasts container and cannot be overridden on a single toast.
 
 ### Toast customization
 

@@ -1,25 +1,13 @@
 import { Ref, ref } from "vue";
 import { GpAnimation, GpOrder, GpPosition, GpTheme } from "../types/enums";
+import { GpToast } from "../types/toast";
 
-interface GpConfig {
-  animation: GpAnimation;
+type GpConfig = Omit<GpToast, "id"> & {
   order: GpOrder;
   position: GpPosition;
-  theme: GpTheme;
-  fadeAfter: number;
-  closeOnClick: boolean;
-  maxMessageLength?: number;
-}
-
-export interface GpOptions {
-  animation?: GpAnimation;
-  order?: GpOrder;
-  position?: GpPosition;
-  theme?: GpTheme;
-  fadeAfter?: number;
-  closeOnClick?: boolean;
-  maxMessageLength?: number;
-}
+  fullWidth: boolean;
+};
+export type GpOptions = Partial<GpConfig>;
 
 const config: Ref<GpConfig> = ref({
   animation: GpAnimation.SLIDE_UP,
@@ -28,6 +16,7 @@ const config: Ref<GpConfig> = ref({
   theme: GpTheme.DARK,
   fadeAfter: 5000,
   closeOnClick: false,
+  fullWidth: false,
 });
 
 export default function useConfig() {

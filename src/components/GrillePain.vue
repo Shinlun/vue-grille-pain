@@ -2,14 +2,11 @@
   <div
     :class="{
       'grille-pain': true,
-      'grille-pain--top-left': config.position === GpPosition.TOP_LEFT,
-      'grille-pain--top': config.position === GpPosition.TOP,
-      'grille-pain--top-right': config.position === GpPosition.TOP_RIGHT,
-      'grille-pain--right': config.position === GpPosition.RIGHT,
-      'grille-pain--bottom-right': config.position === GpPosition.BOTTOM_RIGHT,
-      'grille-pain--bottom': config.position === GpPosition.BOTTOM,
-      'grille-pain--bottom-left': config.position === GpPosition.BOTTOM_LEFT,
-      'grille-pain--left': config.position === GpPosition.LEFT,
+      'grille-pain--top': top,
+      'grille-pain--right': right,
+      'grille-pain--bottom': bottom,
+      'grille-pain--left': left,
+      'grille-pain--full-width': config.fullWidth,
     }"
   >
     <div
@@ -57,9 +54,31 @@ import { GpPosition, GpOrder } from "../types/enums";
 import Toast from "./Toast.vue";
 import useGrillePain from "../composition/useGrillePain";
 import useConfig from "../composition/useConfig";
+import { computed } from "@vue/runtime-core";
 
 const { config } = useConfig();
 const { notifications, clean } = useGrillePain();
+
+const top = computed(() =>
+  [GpPosition.TOP_LEFT, GpPosition.TOP, GpPosition.TOP_RIGHT].includes(
+    config.value.position
+  )
+);
+const right = computed(() =>
+  [GpPosition.TOP_RIGHT, GpPosition.RIGHT, GpPosition.BOTTOM_RIGHT].includes(
+    config.value.position
+  )
+);
+const bottom = computed(() =>
+  [GpPosition.BOTTOM_LEFT, GpPosition.BOTTOM, GpPosition.BOTTOM_RIGHT].includes(
+    config.value.position
+  )
+);
+const left = computed(() =>
+  [GpPosition.TOP_LEFT, GpPosition.LEFT, GpPosition.BOTTOM_LEFT].includes(
+    config.value.position
+  )
+);
 </script>
 
 <style lang="scss" scoped>
@@ -74,7 +93,6 @@ const { notifications, clean } = useGrillePain();
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 250px;
 
     & > * {
       margin: 5px 0;
@@ -102,44 +120,24 @@ const { notifications, clean } = useGrillePain();
     }
   }
 
-  &--top-left {
-    top: 0;
-    left: 0;
-  }
   &--top {
     top: 0;
-    left: 50%;
-    transform: translate(-50%, 0);
-  }
-  &--top-right {
-    top: 0;
-    left: 100%;
-    transform: translate(-100%, 0);
   }
   &--right {
-    top: 50%;
-    left: 100%;
-    transform: translate(-100%, -50%);
-  }
-  &--bottom-right {
-    top: 100%;
-    left: 100%;
-    transform: translate(-100%, -100%);
+    right: 0;
   }
   &--bottom {
-    top: 100%;
-    left: 50%;
-    transform: translate(-50%, -100%);
-  }
-  &--bottom-left {
-    top: 100%;
-    left: 0;
-    transform: translate(0, -100%);
+    bottom: 0;
   }
   &--left {
-    top: 50%;
     left: 0;
-    transform: translate(0, -50%);
+  }
+  &--full-width {
+    left: 0;
+    right: 0;
+  }
+  &:not(.grille-pain--full-width) {
+    width: 250px;
   }
 }
 </style>
