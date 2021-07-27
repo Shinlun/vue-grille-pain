@@ -140,7 +140,7 @@ const left = computed(() =>
   &:not(.grille-pain--full-width) {
     width: 250px;
 
-    &:not(.grille-pain--left) &:not(.grille-pain--right) {
+    &:not(.grille-pain--left):not(.grille-pain--right) {
       left: 50%;
       transform: translate(-50%, 0);
     }
