@@ -52,7 +52,7 @@
   }
 
   @if ($animation == fade) {
-    @include animateFade();
+    @include animateFade;
   }
 
   @if ($reverse == true) {
