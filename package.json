@@ -1,6 +1,6 @@
 {
   "name": "vue-grille-pain",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "private": false,
   "license": "MIT",
   "scripts": {
@@ -20,6 +20,10 @@
     "postcss-nested": "^4.2.3",
     "typescript": "~4.1.5"
   },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Shinlun/vue-grille-pain.git"
+  },
   "browserslist": [
     "> 1%",
     "last 2 versions",
@@ -35,8 +39,10 @@
   ],
   "keywords": [
     "toast",
+    "notification",
     "vue",
     "vue3",
+    "composition",
     "toaster",
     "vue-toast",
     "grille-pain",

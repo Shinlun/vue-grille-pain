@@ -17,6 +17,7 @@ const config: Ref<GpConfig> = ref({
   fadeAfter: 5000,
   closeOnClick: false,
   fullWidth: false,
+  displayTimer: false,
 });
 
 export default function useConfig() {

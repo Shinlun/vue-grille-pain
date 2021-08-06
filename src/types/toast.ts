@@ -10,4 +10,5 @@ export interface GpToast {
   animation?: GpAnimation;
   theme?: GpTheme;
   maxMessageLength?: number;
+  displayTimer?: boolean;
 }

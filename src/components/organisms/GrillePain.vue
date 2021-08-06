@@ -43,6 +43,11 @@
             ? toast.maxMessageLength
             : config.maxMessageLength
         "
+        :display-timer="
+          typeof toast.displayTimer !== 'undefined'
+            ? toast.displayTimer
+            : config.displayTimer
+        "
         @clear="clean"
       />
     </div>
