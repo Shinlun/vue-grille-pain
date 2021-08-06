@@ -9,7 +9,7 @@ import {
   GpToastType,
 } from "../types/enums";
 import { GpToast } from "../types/toast";
-import GrillePain from "./GrillePain.vue";
+import GrillePain from "./organisms/GrillePain.vue";
 
 export default {
   install(app: App, options: GpOptions) {

@@ -2,7 +2,7 @@
   <div
     :class="{
       toast: true,
-      'toast--message': type === GpToastType.INFO,
+      'toast--info': type === GpToastType.INFO,
       'toast--success': type === GpToastType.SUCCESS,
       'toast--warning': type === GpToastType.WARNING,
       'toast--error': type === GpToastType.ERROR,
@@ -14,16 +14,17 @@
       'toast--clickable': clickable,
       ...customClasses,
     }"
-    @mouseenter="stopTimer"
-    @mouseleave="resetTimer"
+    @mouseenter="onMouseEnter"
+    @mouseleave="onMouseLeave"
     @animationend="onAnimationEnd"
     @click="onClick"
+    ref="toastElement"
   >
     <div
       v-if="title"
       :class="{
         toast__header: true,
-        'toast__header--message': type === GpToastType.INFO,
+        'toast__header--info': type === GpToastType.INFO,
         'toast__header--success': type === GpToastType.SUCCESS,
         'toast__header--warning': type === GpToastType.WARNING,
         'toast__header--error': type === GpToastType.ERROR,
@@ -41,12 +42,21 @@
       </button>
     </div>
     <div class="toast__message">
-      {{ maxMessageLength && showMore ? truncatedMessage : message }}
+      <div class="toast__message__text">
+        {{ maxMessageLength && showMore ? truncatedMessage : message }}
+      </div>
+      <div class="toast__message__loader" v-if="displayTimer && fadeAfter > 0">
+        <Timer
+          :time="fadeAfter"
+          :type="type || GpToastType.INFO"
+          :stop="stopLoader"
+        />
+      </div>
     </div>
     <div
       v-if="
         typeof maxMessageLength === 'number' &&
-          message.length > maxMessageLength
+        message.length > maxMessageLength
       "
       :class="{
         toast__footer: true,
@@ -66,11 +76,12 @@
 <script lang="ts" setup>
 import { ref, toRefs } from "@vue/reactivity";
 import { computed } from "@vue/runtime-core";
-import { GpAnimation, GpToastType, GpTheme } from "../types/enums";
-import Svg from "./Svg.vue";
-import Cross from "./icons/Cross.vue";
-import useTimer from "../composition/useTimer";
-import useToggle from "../composition/useToggle";
+import { GpAnimation, GpToastType, GpTheme } from "../../types/enums";
+import Svg from "../atoms/Svg.vue";
+import Timer from "../atoms/Timer.vue";
+import Cross from "../atoms/icons/Cross.vue";
+import useTimer from "../../composition/useTimer";
+import useToggle from "../../composition/useToggle";
 
 const props = withDefaults(
   defineProps<{
@@ -83,6 +94,7 @@ const props = withDefaults(
     closeOnClick?: boolean;
     maxMessageLength?: number;
     className?: string | string[];
+    displayTimer?: boolean;
     id: string;
   }>(),
   {
@@ -92,6 +104,7 @@ const props = withDefaults(
     theme: GpTheme.LIGHT,
     fadeAfter: 5000,
     closeOnClick: false,
+    displayTimer: false,
   }
 );
 
@@ -148,7 +161,7 @@ const animationClass = computed(() => {
 
 const truncatedMessage = computed(() =>
   !!maxMessageLength?.value && message.value.length > maxMessageLength.value
-    ? `${message.value.slice(0, maxMessageLength.value)}...`
+    ? `var(--{message.value.slice(0, maxMessageLength.value)}...`
     : message.value
 );
 
@@ -160,7 +173,21 @@ const crossColor = computed(() =>
   theme.value === GpTheme.LIGHT ? "" : "#fff"
 );
 
+const stopLoader = ref(false);
+
+const onMouseEnter = () => {
+  stopLoader.value = true;
+  stopTimer();
+};
+
+const onMouseLeave = () => {
+  stopLoader.value = false;
+  resetTimer();
+};
+
+const toastElement = ref();
 const onAnimationEnd = (e: AnimationEvent) => {
+  if (e.target !== toastElement.value) return;
   if (fadeAfter.value > 0 && timeup.value) {
     emit("clear", props.id);
   }
@@ -170,54 +197,66 @@ const onAnimationEnd = (e: AnimationEvent) => {
 
 const footerElement = ref();
 const onClick = (e: MouseEvent) => {
-  if (!clickable || e.target === footerElement.value) return;
+  if (!clickable.value || e.target === footerElement.value) return;
   emit("clear", props.id);
 };
 
 const onClose = () => emit("clear", props.id);
 </script>
 
-<style lang="scss" scoped>
-@import "../assets/scss/variables.scss";
-@import "../assets/scss/mixins.scss";
+<style lang="postcss" scoped>
+@import "../../assets/css/variables.css";
+@import "../../assets/css/animations.css";
 .toast {
-  border-radius: $radius;
+  border-radius: var(--radius);
   text-align: left;
   width: 100%;
   box-sizing: border-box;
 
-  &--message {
-    border-left: 5px solid $message-blue;
+  &--info {
+    border-left: 5px solid var(--info-blue);
   }
   &--success {
-    border-left: 5px solid $success-green;
+    border-left: 5px solid var(--success-green);
   }
   &--warning {
-    border-left: 5px solid $warning-yellow;
+    border-left: 5px solid var(--warning-yellow);
   }
   &--error {
-    border-left: 5px solid $error-red;
+    border-left: 5px solid var(--error-red);
   }
   &--clickable {
     cursor: pointer;
   }
   &--pop {
-    @include animate(pop, 0.2s);
+    animation: pop;
+    animation-duration: var(--pop-duration);
+    animation-timing-function: var(--pop-timing);
   }
   &--slide-right {
-    @include animate(slide-right, 0.1s);
+    animation: slideRight;
+    animation-duration: var(--slide-duration);
+    animation-timing-function: var(--slide-timing);
   }
   &--slide-left {
-    @include animate(slide-left, 0.1s);
+    animation: slideLeft;
+    animation-duration: var(--slide-duration);
+    animation-timing-function: var(--slide-timing);
   }
   &--slide-up {
-    @include animate(slide-up, 0.1s);
+    animation: slideUp;
+    animation-duration: var(--slide-duration);
+    animation-timing-function: var(--slide-timing);
   }
   &--slide-down {
-    @include animate(slide-down, 0.1s);
+    animation: slideDown;
+    animation-duration: var(--slide-duration);
+    animation-timing-function: var(--slide-timing);
   }
   &--hide {
-    @include animate(fade, 1s);
+    animation: fade;
+    animation-duration: var(--fade-duration);
+    animation-timing-function: var(--fade-timing);
   }
   &--show {
     opacity: 1;
@@ -229,7 +268,7 @@ const onClose = () => emit("clear", props.id);
     justify-content: space-between;
     align-items: center;
     font-weight: bold;
-    padding: 10px;
+    padding: var(--spacing3);
     border-bottom: 1px solid;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -239,29 +278,42 @@ const onClose = () => emit("clear", props.id);
       text-overflow: ellipsis;
     }
 
-    &--message {
-      color: $message-blue;
+    &--info {
+      color: var(--info-blue);
     }
     &--success {
-      color: $success-green;
+      color: var(--success-green);
     }
     &--warning {
-      color: $warning-yellow;
+      color: var(--warning-yellow);
     }
     &--error {
-      color: $error-red;
+      color: var(--error-red);
     }
 
     &--light {
-      border-color: $grey1;
+      border-color: var(--light-grey);
     }
     &--dark {
-      border-color: $dark-grey;
+      border-color: var(--dark-grey);
     }
   }
 
   &__message {
-    padding: 10px;
+    padding: var(--spacing3);
+    position: relative;
+
+    &__text {
+      position: relative;
+      z-index: 2;
+    }
+
+    &__loader {
+      position: absolute;
+      bottom: var(--spacing3);
+      right: var(--spacing3);
+      opacity: 0.4;
+    }
   }
 
   &__footer {
@@ -270,13 +322,13 @@ const onClose = () => emit("clear", props.id);
     font-size: 0.8em;
     border-top: 1px solid;
     cursor: pointer;
-    padding: 2px;
+    padding: var(--spacing1);
 
     &--light {
-      border-color: $grey1;
+      border-color: var(--light-grey);
     }
     &--dark {
-      border-color: $dark-grey;
+      border-color: var(--dark-grey);
     }
   }
 
@@ -287,14 +339,14 @@ const onClose = () => emit("clear", props.id);
   }
 
   &--light {
-    color: $grey;
-    background-color: $white;
-    box-shadow: $shadow;
+    color: var(--grey);
+    background-color: var(--white);
+    box-shadow: var(--shadow);
   }
   &--dark {
-    color: $dark-text;
-    background-color: $dark-bg;
-    box-shadow: $dark-shadow;
+    color: var(--dark-text);
+    background-color: var(--dark-bg);
+    box-shadow: var(--dark-shadow);
   }
 }
 </style>

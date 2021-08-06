@@ -50,10 +50,10 @@
 </template>
 
 <script lang="ts" setup>
-import { GpPosition, GpOrder } from "../types/enums";
-import Toast from "./Toast.vue";
-import useGrillePain from "../composition/useGrillePain";
-import useConfig from "../composition/useConfig";
+import { GpPosition, GpOrder } from "../../types/enums";
+import Toast from "../molecules/Toast.vue";
+import useGrillePain from "../../composition/useGrillePain";
+import useConfig from "../../composition/useConfig";
 import { computed } from "@vue/runtime-core";
 
 const { config } = useConfig();
@@ -81,13 +81,14 @@ const left = computed(() =>
 );
 </script>
 
-<style lang="scss" scoped>
-@import "../assets/scss/variables.scss";
+<style lang="postcss" scoped>
+@import "../../assets/css/variables.css";
 @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
 .grille-pain {
-  font-family: $font;
+  font-family: var(--font);
   position: fixed;
-  padding: 10px;
+  padding: var(--spacing3);
 
   .toasts {
     display: flex;
@@ -95,7 +96,7 @@ const left = computed(() =>
     justify-content: space-between;
 
     & > * {
-      margin: 5px 0;
+      margin: var(--spacing2) 0;
     }
 
     &:not(.toasts--reverse) {

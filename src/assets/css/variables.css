@@ -1,0 +1,44 @@
+:root {
+  /* Colors */
+  --black: #000;
+  --white: #fff;
+  --grey: #687078;
+  --light-grey: #e3e7eb;
+  --info-blue: #3082ff;
+  --success-green: #5cb85c;
+  --warning-yellow: #f7c900;
+  --error-red: #ef5350;
+  --shadow-grey: #c2cdd8;
+  --dark-grey: #2e3134;
+  --dark-bg: #202124;
+  --dark-text: #9aa0a6;
+  --font-color: #2c3e50;
+
+  /* Shadows */
+  --shadow: 1px 1px 5px var(--shadow-grey);
+  --dark-shadow: 1px 1px 5px var(--dark-grey);
+
+  /* Fonts */
+  --font: "Roboto", sans-serif;
+
+  /* Radiuses */
+  --radius: 5px;
+
+  /* Breakpoints */
+  --bp-small: 600px;
+
+  /* Spacings */
+  --spacing1: 2px;
+  --spacing2: 5px;
+  --spacing3: 10px;
+
+  /* Animations */
+  --pop-duration: 0.2s;
+  --pop-timing: linear;
+
+  --slide-duration: 0.1s;
+  --slide-timing: ease-in-out;
+
+  --fade-duration: 1s;
+  --fade-timing: ease-out;
+}

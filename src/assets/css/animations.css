@@ -1,0 +1,359 @@
+@keyframes pop {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translate(0, 100%);
+  }
+  to {
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    transform: translate(0, -100%);
+  }
+  to {
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes slideLeft {
+  from {
+    transform: translate(100%, 0);
+  }
+  to {
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes slideRight {
+  from {
+    transform: translate(-100%, 0);
+  }
+  to {
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fillDisc {
+  0% {
+    background: conic-gradient(transparent 0%, var(--timer-color) 0);
+  }
+  1% {
+    background: conic-gradient(transparent 1%, var(--timer-color) 0);
+  }
+  2% {
+    background: conic-gradient(transparent 2%, var(--timer-color) 0);
+  }
+  3% {
+    background: conic-gradient(transparent 3%, var(--timer-color) 0);
+  }
+  4% {
+    background: conic-gradient(transparent 4%, var(--timer-color) 0);
+  }
+  5% {
+    background: conic-gradient(transparent 5%, var(--timer-color) 0);
+  }
+  6% {
+    background: conic-gradient(transparent 6%, var(--timer-color) 0);
+  }
+  7% {
+    background: conic-gradient(transparent 7%, var(--timer-color) 0);
+  }
+  8% {
+    background: conic-gradient(transparent 8%, var(--timer-color) 0);
+  }
+  9% {
+    background: conic-gradient(transparent 9%, var(--timer-color) 0);
+  }
+  10% {
+    background: conic-gradient(transparent 10%, var(--timer-color) 0);
+  }
+  11% {
+    background: conic-gradient(transparent 11%, var(--timer-color) 0);
+  }
+  12% {
+    background: conic-gradient(transparent 12%, var(--timer-color) 0);
+  }
+  13% {
+    background: conic-gradient(transparent 13%, var(--timer-color) 0);
+  }
+  14% {
+    background: conic-gradient(transparent 14%, var(--timer-color) 0);
+  }
+  15% {
+    background: conic-gradient(transparent 15%, var(--timer-color) 0);
+  }
+  16% {
+    background: conic-gradient(transparent 16%, var(--timer-color) 0);
+  }
+  17% {
+    background: conic-gradient(transparent 17%, var(--timer-color) 0);
+  }
+  18% {
+    background: conic-gradient(transparent 18%, var(--timer-color) 0);
+  }
+  19% {
+    background: conic-gradient(transparent 19%, var(--timer-color) 0);
+  }
+  20% {
+    background: conic-gradient(transparent 20%, var(--timer-color) 0);
+  }
+  21% {
+    background: conic-gradient(transparent 21%, var(--timer-color) 0);
+  }
+  22% {
+    background: conic-gradient(transparent 22%, var(--timer-color) 0);
+  }
+  23% {
+    background: conic-gradient(transparent 23%, var(--timer-color) 0);
+  }
+  24% {
+    background: conic-gradient(transparent 24%, var(--timer-color) 0);
+  }
+  25% {
+    background: conic-gradient(transparent 25%, var(--timer-color) 0);
+  }
+  26% {
+    background: conic-gradient(transparent 26%, var(--timer-color) 0);
+  }
+  27% {
+    background: conic-gradient(transparent 27%, var(--timer-color) 0);
+  }
+  28% {
+    background: conic-gradient(transparent 28%, var(--timer-color) 0);
+  }
+  29% {
+    background: conic-gradient(transparent 29%, var(--timer-color) 0);
+  }
+  30% {
+    background: conic-gradient(transparent 30%, var(--timer-color) 0);
+  }
+  31% {
+    background: conic-gradient(transparent 31%, var(--timer-color) 0);
+  }
+  32% {
+    background: conic-gradient(transparent 32%, var(--timer-color) 0);
+  }
+  33% {
+    background: conic-gradient(transparent 33%, var(--timer-color) 0);
+  }
+  34% {
+    background: conic-gradient(transparent 34%, var(--timer-color) 0);
+  }
+  35% {
+    background: conic-gradient(transparent 35%, var(--timer-color) 0);
+  }
+  36% {
+    background: conic-gradient(transparent 36%, var(--timer-color) 0);
+  }
+  37% {
+    background: conic-gradient(transparent 37%, var(--timer-color) 0);
+  }
+  38% {
+    background: conic-gradient(transparent 38%, var(--timer-color) 0);
+  }
+  39% {
+    background: conic-gradient(transparent 39%, var(--timer-color) 0);
+  }
+  40% {
+    background: conic-gradient(transparent 40%, var(--timer-color) 0);
+  }
+  41% {
+    background: conic-gradient(transparent 41%, var(--timer-color) 0);
+  }
+  42% {
+    background: conic-gradient(transparent 42%, var(--timer-color) 0);
+  }
+  43% {
+    background: conic-gradient(transparent 43%, var(--timer-color) 0);
+  }
+  44% {
+    background: conic-gradient(transparent 44%, var(--timer-color) 0);
+  }
+  45% {
+    background: conic-gradient(transparent 45%, var(--timer-color) 0);
+  }
+  46% {
+    background: conic-gradient(transparent 46%, var(--timer-color) 0);
+  }
+  47% {
+    background: conic-gradient(transparent 47%, var(--timer-color) 0);
+  }
+  48% {
+    background: conic-gradient(transparent 48%, var(--timer-color) 0);
+  }
+  49% {
+    background: conic-gradient(transparent 49%, var(--timer-color) 0);
+  }
+  50% {
+    background: conic-gradient(transparent 50%, var(--timer-color) 0);
+  }
+  51% {
+    background: conic-gradient(transparent 51%, var(--timer-color) 0);
+  }
+  52% {
+    background: conic-gradient(transparent 52%, var(--timer-color) 0);
+  }
+  53% {
+    background: conic-gradient(transparent 53%, var(--timer-color) 0);
+  }
+  54% {
+    background: conic-gradient(transparent 54%, var(--timer-color) 0);
+  }
+  55% {
+    background: conic-gradient(transparent 55%, var(--timer-color) 0);
+  }
+  56% {
+    background: conic-gradient(transparent 56%, var(--timer-color) 0);
+  }
+  57% {
+    background: conic-gradient(transparent 57%, var(--timer-color) 0);
+  }
+  58% {
+    background: conic-gradient(transparent 58%, var(--timer-color) 0);
+  }
+  59% {
+    background: conic-gradient(transparent 59%, var(--timer-color) 0);
+  }
+  60% {
+    background: conic-gradient(transparent 60%, var(--timer-color) 0);
+  }
+  61% {
+    background: conic-gradient(transparent 61%, var(--timer-color) 0);
+  }
+  62% {
+    background: conic-gradient(transparent 62%, var(--timer-color) 0);
+  }
+  63% {
+    background: conic-gradient(transparent 63%, var(--timer-color) 0);
+  }
+  64% {
+    background: conic-gradient(transparent 64%, var(--timer-color) 0);
+  }
+  65% {
+    background: conic-gradient(transparent 65%, var(--timer-color) 0);
+  }
+  66% {
+    background: conic-gradient(transparent 66%, var(--timer-color) 0);
+  }
+  67% {
+    background: conic-gradient(transparent 67%, var(--timer-color) 0);
+  }
+  68% {
+    background: conic-gradient(transparent 68%, var(--timer-color) 0);
+  }
+  69% {
+    background: conic-gradient(transparent 69%, var(--timer-color) 0);
+  }
+  70% {
+    background: conic-gradient(transparent 70%, var(--timer-color) 0);
+  }
+  71% {
+    background: conic-gradient(transparent 71%, var(--timer-color) 0);
+  }
+  72% {
+    background: conic-gradient(transparent 72%, var(--timer-color) 0);
+  }
+  73% {
+    background: conic-gradient(transparent 73%, var(--timer-color) 0);
+  }
+  74% {
+    background: conic-gradient(transparent 74%, var(--timer-color) 0);
+  }
+  75% {
+    background: conic-gradient(transparent 75%, var(--timer-color) 0);
+  }
+  76% {
+    background: conic-gradient(transparent 76%, var(--timer-color) 0);
+  }
+  77% {
+    background: conic-gradient(transparent 77%, var(--timer-color) 0);
+  }
+  78% {
+    background: conic-gradient(transparent 78%, var(--timer-color) 0);
+  }
+  79% {
+    background: conic-gradient(transparent 79%, var(--timer-color) 0);
+  }
+  80% {
+    background: conic-gradient(transparent 80%, var(--timer-color) 0);
+  }
+  81% {
+    background: conic-gradient(transparent 81%, var(--timer-color) 0);
+  }
+  82% {
+    background: conic-gradient(transparent 82%, var(--timer-color) 0);
+  }
+  83% {
+    background: conic-gradient(transparent 83%, var(--timer-color) 0);
+  }
+  84% {
+    background: conic-gradient(transparent 84%, var(--timer-color) 0);
+  }
+  85% {
+    background: conic-gradient(transparent 85%, var(--timer-color) 0);
+  }
+  86% {
+    background: conic-gradient(transparent 86%, var(--timer-color) 0);
+  }
+  87% {
+    background: conic-gradient(transparent 87%, var(--timer-color) 0);
+  }
+  88% {
+    background: conic-gradient(transparent 88%, var(--timer-color) 0);
+  }
+  89% {
+    background: conic-gradient(transparent 89%, var(--timer-color) 0);
+  }
+  90% {
+    background: conic-gradient(transparent 90%, var(--timer-color) 0);
+  }
+  91% {
+    background: conic-gradient(transparent 91%, var(--timer-color) 0);
+  }
+  92% {
+    background: conic-gradient(transparent 92%, var(--timer-color) 0);
+  }
+  93% {
+    background: conic-gradient(transparent 93%, var(--timer-color) 0);
+  }
+  94% {
+    background: conic-gradient(transparent 94%, var(--timer-color) 0);
+  }
+  95% {
+    background: conic-gradient(transparent 95%, var(--timer-color) 0);
+  }
+  96% {
+    background: conic-gradient(transparent 96%, var(--timer-color) 0);
+  }
+  97% {
+    background: conic-gradient(transparent 97%, var(--timer-color) 0);
+  }
+  98% {
+    background: conic-gradient(transparent 98%, var(--timer-color) 0);
+  }
+  99% {
+    background: conic-gradient(transparent 99%, var(--timer-color) 0);
+  }
+  100% {
+    background: conic-gradient(transparent 100%, var(--timer-color) 0);
+  }
+}
