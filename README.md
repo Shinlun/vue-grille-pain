@@ -144,5 +144,4 @@ These parameters can be passed when generating a toast.
 
 ## Notes
 
-This is still a sandbox project to play around with the new Vue3 features. Feel free to [contact me](mailto:ronanlet+vue-grille-pain@gmail.com) with requests or suggestions.
-Repo will be made public soon.
+This is just a sandbox project to play around with the new Vue3 features. Feel free to [contact me](mailto:ronanlet+vue-grille-pain@gmail.com) with requests or suggestions, or post pull requests and issues directly on GitHub.
