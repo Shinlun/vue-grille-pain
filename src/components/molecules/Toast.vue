@@ -45,18 +45,18 @@
       <div class="toast__message__text">
         {{ maxMessageLength && showMore ? truncatedMessage : message }}
       </div>
-      <div class="toast__message__loader" v-if="displayTimer && fadeAfter > 0">
+      <div class="toast__message__timer" v-if="displayTimer && fadeAfter > 0">
         <Timer
           :time="fadeAfter"
           :type="type || GpToastType.INFO"
-          :stop="stopLoader"
+          :stop="stopPieTimer"
         />
       </div>
     </div>
     <div
       v-if="
         typeof maxMessageLength === 'number' &&
-        message.length > maxMessageLength
+          message.length > maxMessageLength
       "
       :class="{
         toast__footer: true,
@@ -173,15 +173,15 @@ const crossColor = computed(() =>
   theme.value === GpTheme.LIGHT ? "" : "#fff"
 );
 
-const stopLoader = ref(false);
+const stopPieTimer = ref(false);
 
 const onMouseEnter = () => {
-  stopLoader.value = true;
+  stopPieTimer.value = true;
   stopTimer();
 };
 
 const onMouseLeave = () => {
-  stopLoader.value = false;
+  stopPieTimer.value = false;
   resetTimer();
 };
 
@@ -308,7 +308,7 @@ const onClose = () => emit("clear", props.id);
       z-index: 2;
     }
 
-    &__loader {
+    &__timer {
       position: absolute;
       bottom: var(--spacing3);
       right: var(--spacing3);
