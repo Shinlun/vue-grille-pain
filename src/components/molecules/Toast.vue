@@ -173,15 +173,15 @@ const crossColor = computed(() =>
   theme.value === GpTheme.LIGHT ? "" : "#fff"
 );
 
-const stopPieTimer = ref(false);
+const { bool: stopPieTimer, toggle: toggleStopPieTimer } = useToggle(false);
 
 const onMouseEnter = () => {
-  stopPieTimer.value = true;
+  toggleStopPieTimer();
   stopTimer();
 };
 
 const onMouseLeave = () => {
-  stopPieTimer.value = false;
+  toggleStopPieTimer();
   resetTimer();
 };
 
