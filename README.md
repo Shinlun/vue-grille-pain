@@ -121,7 +121,7 @@ These parameters can be passed when registering the plugin.
 | fadeAfter        | number      | `5000`                   | Time in ms before toasts fade (0 for never)                                                           |
 | closeOnClick     | boolean     | `false`                  | Whether toasts should be closable on mouse click (by default, toasts are closable via a close button) |
 | maxMessageLength | number      | `undefined`              | If set, texts of a greater length will be truncated and the toasts will be expandable                 |
-| displayTimer     | boolean     | `false`                  | Displays a pie timer showing time before toast fades (must have `fadeAfter > 0`)                      |
+| displayTimer     | boolean     | `false`                  | Displays a pie timer showing time before toasts fade (must have `fadeAfter > 0`)                      |
 
 `position`, `order` and `fullWidth` are global parameters, meaning they concern the toasts container and cannot be overridden on a single toast.
 

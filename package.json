@@ -1,12 +1,12 @@
 {
   "name": "vue-grille-pain",
-  "version": "1.1.7",
+  "version": "1.1.8",
   "private": false,
   "license": "MIT",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "build-bundle": "cross-env vue-cli-service build --target lib --name grille-pain ./src/components/index.ts && npm run typings",
+    "build-bundle": "cross-env vue-cli-service build --target lib --name vue-grille-pain ./src/components/index.ts && npm run typings",
     "typings": "cross-env tsc ./src/components/index.ts --declaration --emitDeclarationOnly --outDir ./dist/typings"
   },
   "dependencies": {
