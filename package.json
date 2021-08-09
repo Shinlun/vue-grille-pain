@@ -1,6 +1,6 @@
 {
   "name": "vue-grille-pain",
-  "version": "1.1.8",
+  "version": "1.1.9",
   "private": false,
   "license": "MIT",
   "scripts": {
@@ -29,7 +29,7 @@
     "last 2 versions",
     "not dead"
   ],
-  "main": "./dist/grille-pain.umd.js",
+  "main": "./dist/vue-grille-pain.umd.js",
   "typings": "./dist/typings/components/index.d.ts",
   "files": [
     "dist/**/*",
