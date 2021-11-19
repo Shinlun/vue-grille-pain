@@ -161,7 +161,7 @@ const animationClass = computed(() => {
 
 const truncatedMessage = computed(() =>
   !!maxMessageLength?.value && message.value.length > maxMessageLength.value
-    ? `var(--{message.value.slice(0, maxMessageLength.value)}...`
+    ? `${message.value.slice(0, maxMessageLength.value)}...`
     : message.value
 );
 
